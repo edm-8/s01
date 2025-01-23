@@ -5,8 +5,6 @@
 [[plugins]]
 package = "@netlify/plugin-nextjs"
 
-[plugins.inputs]
-enableForms = true
 
 [functions]
   # Ensure that your Next.js API routes are treated as Netlify Functions
