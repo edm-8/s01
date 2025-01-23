@@ -26,12 +26,12 @@ const Footer = () => {
           </div>
           <div>
             <h4 className="text-lg font-semibold mb-4 font-space-grotesk">Contact</h4>
-            <p className="text-gray-400 font-inter">info@gmpconsulting.com</p>
-            <p className="text-gray-400 font-inter">+1 (555) 123-4567</p>
+            <p className="text-gray-400 font-inter">info@arvconsulting.com</p>
+            <p className="text-gray-400 font-inter">+1 (000) 000-0000</p>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 font-inter">
-          © 2023 ARV Consulting. All rights reserved.
+          © 2025 ARV Consulting. All rights reserved.
         </div>
       </div>
     </footer>

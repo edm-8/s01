@@ -368,7 +368,7 @@ export default function BackgroundMatrix() {
         ctx.font = '12px Arial';
         ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
         ctx.textAlign = 'right';
-        ctx.fillText('Visualization by v0', canvas.width - 10, canvas.height - 10);
+        ctx.fillText('© 2025 ARV Consulting. All rights reserved', canvas.width - 10, canvas.height - 10);
         ctx.restore();
       };
 
