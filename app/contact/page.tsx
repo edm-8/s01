@@ -35,8 +35,9 @@ export default function Contact() {
     if (validateForm()) {
       setIsSubmitting(true)
       try {
-        const response = await fetch('/', {
-          method: 'POST',
+        // Submit form to the static __forms.html for Netlify form detection
+        const response = await fetch("/__forms.html", {
+          method: "POST",
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({
             'form-name': 'contact',
