@@ -1,46 +1,62 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import InteractiveBackground from '@/components/InteractiveBackground';
-import Header from '@/components/Header';
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import InteractiveBackground from '@/components/InteractiveBackground'
+import Header from '@/components/Header'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
-    message: '',
-    'bot-field': '',
-  });
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+    message: ''
+  })
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    const newErrors = {}
+    if (!formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.email.trim()) newErrors.email = 'Email is required'
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid'
+    if (!formData.message.trim()) newErrors.message = 'Message is required'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm() && !formData['bot-field']) {
-      setIsSubmitting(true);
-      setSubmitStatus('success');
-      setTimeout(() => {
-        window.location.href = '/';
-      }, 3000);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (validateForm()) {
+      setIsSubmitting(true)
+      try {
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            'form-name': 'contact',
+            ...formData
+          }).toString()
+        })
+        if (response.ok) {
+          setSubmitStatus('success')
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 3000)
+        } else {
+          throw new Error('Form submission failed')
+        }
+      } catch (error) {
+        setSubmitStatus('error')
+      }
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen relative">
@@ -57,6 +73,7 @@ export default function Contact() {
             Contact Us
           </motion.h1>
           <div className="max-w-2xl mx-auto">
+            {/* Ensure the form has a hidden input with "form-name" */}
             <motion.form
               name="contact"
               method="POST"
@@ -68,7 +85,6 @@ export default function Contact() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <input type="hidden" name="form-name" value="contact" />
-              <input type="hidden" name="bot-field" value={formData['bot-field']} />
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
                 <input
@@ -103,8 +119,9 @@ export default function Contact() {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-primary-dark rounded-md text-white"
+                  className={`w-full px-3 py-2 bg-primary-dark rounded-md text-white ${errors.company ? 'border-red-500' : ''}`}
                 />
+                {errors.company && <p className="text-red-500 text-xs mt-1">{errors.company}</p>}
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
@@ -144,5 +161,5 @@ export default function Contact() {
         </div>
       </div>
     </div>
-  );
+  )
 }
