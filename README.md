@@ -1,6 +1,5 @@
-# ARV Consulting Website
+# WebApp
 
-This is the official website for ARV Consulting, specializing in GMP compliance and regulatory validation solutions.
 
 ## Getting Started
 
